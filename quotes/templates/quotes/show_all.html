@@ -1,0 +1,15 @@
+<!-- quotes/templates/quotes/show_all.html -->
+{% extends 'quotes/base.html' %}
+{% load static %}
+
+    {% block content %}
+    <h2>All Oscar Wilde Quotes</h2>
+    <p>{{quote1}}</p>
+    <p>{{quote2}}</p>
+    <p>{{quote3}}</p>
+
+    <h2>All Oscar Wilde Pictures</h2>
+    <img src="{% static image1 %}" alt="oscar wilde with gloves">
+    <img src="{% static image2 %}" alt="oscar wilde profile view">
+    <img src="{% static image3 %}" alt="oscar wilde thinking">
+    {% endblock %}

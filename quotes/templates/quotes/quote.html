@@ -1,0 +1,8 @@
+<!-- quotes/templates/quotes/quote.html -->
+{% extends 'quotes/base.html' %}
+{% load static %}
+
+    {% block content %}
+    <h2>{{quote}}</h2><br>
+    <img src="{% static picture_link %}" alt="oscar wilde">
+    {% endblock %}
