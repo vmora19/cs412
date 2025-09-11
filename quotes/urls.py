@@ -1,4 +1,6 @@
-#file: quotes/urls.py
+# File: quotes/urls.py
+# Author: Valentina Mora (vmora19@bu.edu), 09/11/2025
+# Description: Urls for quotes application
 
 from django.urls import path
 from . import views

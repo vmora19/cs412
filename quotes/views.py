@@ -1,4 +1,6 @@
-# file: quotes/views.py
+# File: quotes/views.py
+# Author: Valentina Mora (vmora19@bu.edu), 09/11/2025
+# Description: Views for quotes application
 
 from django.http import HttpResponse
 from django.shortcuts import render
