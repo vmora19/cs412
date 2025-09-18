@@ -1,0 +1,59 @@
+<!-- Author: Valentina Mora (vmora19@bu.edu), 09/16/2025 -->
+<!-- Description:  HTML page for order view -->
+
+<!-- restaurant/templates/restaurant/order.html -->
+{% extends 'restaurant/base.html' %}
+{% load static %}
+    {% block content %}
+        <h2>Place an Order</h2>
+
+        <form action="{% url 'confirmation_page' %}" method="POST">
+            {% csrf_token %}
+            <div id="form-content">
+                <h3>Select your entree:</h3>
+                <input type="checkbox" name="entree" value="Pad Thai $13">
+                <label for="entree1">Pad Thai $13</label><br>
+
+                <div style="margin-left: 20px;">
+                    <input type="checkbox" name="entree" value="Sub Beef $2">
+                    <label for="sub-beef">Sub Beef $2</label><br>
+                  
+                    <input type="checkbox" name="entree" value="Sub Shrimp $2">
+                    <label for="sub-shrimp">Sub Shrimp $2</label><br>
+                </div>
+
+                <input type="checkbox" name="entree" value="Pad See Ew $14">
+                <label for="entree2">Pad See Ew $14</label><br>
+                <input type="checkbox" name="entree" value="Tom Yum Pad Thai $14">
+                <label for="entree3">Tom Yum Pad Thai $14</label><br>
+                <input type="checkbox" name="entree" value="Pad Woon Sen $12">
+                <label for="entree4">Pad Woon Sen $12</label><br><br>
+
+
+                <h2>Today's special:</h2>
+                <input type="checkbox" id="special" name="special">
+                <label for="special">{{special}}</label><br>
+
+                <h2>Special Instructions:</h2>
+                <label for="instructions">Please share any special instructions:</label><br><br>
+                <input type="textbox" id="instructions" name="instructions"><br><br>
+
+                <div id="customer-info">
+                    <h2>Customer information:</h2>
+                    <label for="customer-name">Name:</label>
+                    <input type="textbox" id="customer-name" name="customer-name"><br>
+
+                    <label for="customer-phone">Phone:</label>
+                    <input type="textbox" id="customer-phone" name="customer-phone"><br>
+
+                    <label for="customer-email">Email:</label>
+                    <input type="textbox" id="customer-email" name="customer-email"><br> 
+                </div>
+                
+                <h2>Place your order:</h2>
+                <input type="submit">
+            </div>
+            
+        </form>
+    
+    {% endblock %}

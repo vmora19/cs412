@@ -1,4 +1,4 @@
-ul {
+nav ul {
     list-style-type: none;
     margin: 0;
     padding: 0;
@@ -6,11 +6,11 @@ ul {
     background-color: #450920;
 }
   
-ul li {
+nav ul li {
     float: center;
 }
   
-ul li a {
+nav ul li a {
     display: block;
     color: white;
     text-align: center;
@@ -18,7 +18,7 @@ ul li a {
     text-decoration: none;
 }
   
-ul li a:hover {
+nav ul li a:hover {
     background-color: #a53860;
 }
 
@@ -63,3 +63,33 @@ img {
     margin: 0 auto;
     width: 50%;
   }
+
+#form-content{
+    width: 80%;
+    margin: auto;
+}
+
+#form-content h2{
+    text-align: left;
+}
+
+#customer-info{
+    margin-bottom: 5%;
+}
+
+#instructions{
+    width: 50%;
+    height:10%;
+}
+
+#order-confirmation{
+    width: 80%;
+    text-align: left;
+    margin: auto;
+    padding-bottom: 10%;
+    padding-top: 5%;
+}
+
+#order-confirmation p{
+    text-align: left;
+}

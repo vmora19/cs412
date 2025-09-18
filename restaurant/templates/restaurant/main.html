@@ -1,0 +1,11 @@
+<!-- Author: Valentina Mora (vmora19@bu.edu), 09/16/2025 -->
+<!-- Description:  HTML page for main view -->
+
+<!-- restaurant/templates/restaurant/main.html -->
+{% extends 'restaurant/base.html' %}
+{% load static %}
+    {% block content %}
+    <h2>Welcome !!</h2>
+    <img src="{% static picture_link %}" alt="nud pob resturant thai cuisine">
+    <p>Welcome to <strong>Nud Pob</strong>, Comm Ave's best thai cuisine!</p>
+    {% endblock %}
