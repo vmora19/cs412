@@ -1,0 +1,17 @@
+<!-- blog/article.html -->
+{% extends 'blog/base.html' %}
+<h1>{{article.title}}</h1>
+
+{% block content %}
+<div>
+    <!-- scriplet code for a for loop -->
+    <div>
+        <h2>{{article.title}}</h2>
+        <h3>by {{article.author}}</h3>
+        <p>{{article.text}}</p>
+        
+        <img src="{{article.image_url}}">
+    </div>
+    <hr>
+</div>
+{% endblock %}

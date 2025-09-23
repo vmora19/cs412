@@ -1,0 +1,19 @@
+<!-- blog/base.html -->
+{% load static %}
+<html>
+    <head>
+        <title>My Articles</title>
+        <link rel="stylesheet" type="text/css" href="{% static 'static.css' %}">
+    </head>
+    <body>
+        <nav>
+            <ul>
+                <li><a href="{% url 'random' %}">Random</a></li>
+                <li><a href="{% url 'show_all' %}">Show All</a></li>
+            </ul>
+        </nav>
+        <!-- substitute in the specific content here -->
+        {% block content %}
+        {% endblock %}
+    </body>
+</html>

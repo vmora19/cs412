@@ -1,0 +1,24 @@
+<!-- blog/show_all.html -->
+{% extends 'blog/base.html' %}
+<h1>Showing all articles</h1>
+
+<!-- this displays the QuerySet of all articles. -->
+<!-- {{articles}} -->
+
+{% block content %}
+<div>
+    <!-- scriplet code for a for loop -->
+    {% for article in articles %}
+    <div>
+        <h2>{{article.title}}</h2>
+        <h3>by {{article.author}}</h3>
+        <p>{{article.text}}</p>
+        
+        <a href="{% url 'article' article.pk %}"><img src="{{article.image_url}}"></a>
+        
+    </div>
+    <hr>
+
+    {% endfor %}
+</div>
+{% endblock %}
