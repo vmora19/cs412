@@ -93,3 +93,42 @@ img {
 #order-confirmation p{
     text-align: left;
 }
+
+#insta-profile h2, h3{
+    text-align: center;
+    color: white;
+}
+
+#insta-profile{
+    margin-top: 2%;
+    margin-bottom: 2%;
+
+}
+
+#insta-profile img {
+    border-radius: 5%;
+  }
+
+#insta-container{
+    width:30%;
+    display: flex;
+    flex-direction: row;
+    background-color: #a53860;
+    margin: auto;
+    border-radius: 25%;
+    padding: 5% 0;
+}
+
+#insta-container-name{
+    width: 30%;
+    padding-left: 5%;
+}
+
+#insta-container-image{
+    width: 70%;
+}
+
+footer .white-house {
+    color: white;
+    font-size: calc(8px + 2vw);
+  }

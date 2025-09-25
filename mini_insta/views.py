@@ -15,9 +15,9 @@ class ProfileListView(ListView):
     template_name = "mini_insta/show_all_profiles.html"
     context_object_name = "profiles"
 
-# class ProfileView(DetailView):
-#     '''Display a single profile.'''
+class ProfileDetailView(DetailView):
+    '''Display a single profile.'''
 
-#     model = Profile
-#     template_name = "mini_insta/profile.html"
-#     context_object_name = "profile" # note singular variable name
+    model = Profile
+    template_name = "mini_insta/show_profile.html"
+    context_object_name = "profile" # note singular variable name
