@@ -1,4 +1,6 @@
-# mini_insta/urls.py
+# File: mini_insta/urls.py
+# Author: Valentina Mora (vmora19@bu.edu), 09/25/2025
+# Description: Url paths for mini_insta application
 
 from django.shortcuts import render
 

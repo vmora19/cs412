@@ -1,5 +1,7 @@
-# mini_insta/models.py
-# define data models for the mini_insta application
+# File: mini_insta/models.py
+# Author: Valentina Mora (vmora19@bu.edu), 09/25/2025
+# Description: Models for mini_insta application in which
+# you can create a profile with username, display_name, profile_image_url, bio_text, join_date
 
 from django.db import models
 

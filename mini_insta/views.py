@@ -1,5 +1,7 @@
-# mini_insta/views.py
-# views for the blog application
+# File: mini_insta/views.py
+# Author: Valentina Mora (vmora19@bu.edu), 09/25/2025
+# Description: Views for the mini_insta application
+
 from django.db.models.base import Model as Model
 from django.db.models.query import QuerySet
 from django.shortcuts import render
