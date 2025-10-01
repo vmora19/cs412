@@ -13,5 +13,17 @@
         <img src="{{article.image_url}}">
     </div>
     <hr>
+
+    <!-- display the comments about this article -->
+    <!-- {{article.get_all_comments}} -->
+    {% for comment in article.get_all_comments %}
+
+    <div>
+        <strong>by {{comment.author}} at {{comment.published}}</strong>
+        <p>
+            {{comment.text}}
+        </p>
+    </div>
+    {% endfor %}
 </div>
 {% endblock %}

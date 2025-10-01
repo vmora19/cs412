@@ -17,11 +17,28 @@
                 <h3>{{profile.join_date}}</h3>
                 <h3>Followers: </h3>
                 <h3>Following: </h3>
-                <h3>Posts: </h3>
             </div>
             <div id="insta-container-image">
                 <img src="{{profile.profile_image_url}}">
             </div>
+            <h3>Posts: </h3>
+            <!-- display the posts about this profile -->
+            {% for post in profile.get_all_posts %}
+
+            <a href="{% url 'show_post' post.pk %}">
+                <div>
+                    {% with first_photo=post.get_first_photo %}
+                        {% if first_photo %}
+                            <img src="{{ first_photo.image_url }}">
+                        {% else %}
+                            <img src="https://media.istockphoto.com/id/1500807425/vector/image-not-found-icon-vector-design.jpg?s=612x612&w=0&k=20&c=SF3EoL0zSi3XUwFzduMo3xdJFEk8V5IUsGqRocgPEtU=">
+                        {% endif %}
+                    {% endwith %}
+                    <strong>{{ post.profile }}</strong> {{ post.timestamp }}
+                    <p>{{ post.caption }}</p>
+                </div>
+            </a>    
+            {% endfor %}
         </div>            
     </div>
     <hr>
