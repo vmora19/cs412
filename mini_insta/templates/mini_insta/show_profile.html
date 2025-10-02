@@ -6,23 +6,25 @@
 <!-- this displays a single Profile. -->
 
 {% block content %}
-<div>
+<div id="view-height">
     <!-- scriplet code for a for loop -->
-    <div id="insta-profile">
-        <div id="insta-container">
-            <div id="insta-container-name">
+        <div id="insta-bio">
+            <div id="insta-bio-name">
                 <h2>{{profile.username}}</h2>
                 <h3>{{profile.display_name}}</h3>
                 <h3>{{profile.bio_text}}</h3>
-                <h3>{{profile.join_date}}</h3>
+                <h3>Joined: {{profile.join_date}}</h3>
                 <h3>Followers: </h3>
                 <h3>Following: </h3>
             </div>
-            <div id="insta-container-image">
+            <div id="insta-bio-image">
                 <img src="{{profile.profile_image_url}}">
             </div>
-            <h3>Posts: </h3>
-            <!-- display the posts about this profile -->
+        </div>
+            
+        <h3 id = "posts-heading">Posts</h3>
+        <!-- display the posts about this profile -->
+        <div id="posts-container">
             {% for post in profile.get_all_posts %}
 
             <a href="{% url 'show_post' post.pk %}">
@@ -34,13 +36,15 @@
                             <img src="https://media.istockphoto.com/id/1500807425/vector/image-not-found-icon-vector-design.jpg?s=612x612&w=0&k=20&c=SF3EoL0zSi3XUwFzduMo3xdJFEk8V5IUsGqRocgPEtU=">
                         {% endif %}
                     {% endwith %}
-                    <strong>{{ post.profile }}</strong> {{ post.timestamp }}
-                    <p>{{ post.caption }}</p>
+                    <div id="post-caption">
+                        <p><strong>{{ post.profile }}</strong> {{ post.timestamp }}</p>
+                        <p>{{ post.caption }}</p>
+                    </div>
+                        
                 </div>
             </a>    
-            {% endfor %}
-        </div>            
-    </div>
-    <hr>
+            {% endfor %}  
+            
+        </div>
 </div>
 {% endblock %}

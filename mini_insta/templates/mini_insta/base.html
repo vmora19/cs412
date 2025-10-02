@@ -19,7 +19,10 @@
         {% block content %}
         {% endblock %}
     </body>
-    <footer>
+    <footer id="mini-insta-footer">
         <p><a href="{% url 'show_all_profiles' %}"><span class="white-house">🏠</span></a></p>
+        {% if profile %}
+            <p><a href="{% url 'create_post' profile.pk %}">Create Post</a></p>
+        {% endif %}
     </footer>
 </html>

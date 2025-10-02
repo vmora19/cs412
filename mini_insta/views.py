@@ -5,8 +5,12 @@
 from django.db.models.base import Model as Model
 from django.db.models.query import QuerySet
 from django.shortcuts import render
-from django.views.generic import ListView, DetailView
-from .models import Profile, Post
+from django.views.generic import ListView, DetailView, CreateView
+from .models import Profile, Post, Photo
+from .forms import CreatePostForm
+from django.shortcuts import get_object_or_404, redirect
+from django.urls import reverse
+
 import random
 
 # Create your views here.
@@ -30,4 +34,39 @@ class PostDetailView(DetailView):
     model = Post
     template_name = "mini_insta/show_post.html"
     context_object_name = "post" # note singular variable name
+
+#define a subclass of CreateView to handle creation of Post objects
+class CreatePostView(CreateView):
+    '''A view to handle creation of a new Post.
+    (1) Display the html form to the user (GET)
+    (2) Process form submission and store the new post object (POST)
+    '''
+
+    form_class = CreatePostForm
+    template_name = "mini_insta/create_post_form.html"
     
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["profile"] = Profile.objects.get(pk=self.kwargs["pk"])
+        return context
+    
+    def form_valid(self, form):
+        profile = get_object_or_404(Profile, pk=self.kwargs['pk'])
+        form.instance.profile = profile
+        response = super().form_valid(form)
+
+        image_url = self.request.POST.get("image_url")
+        if image_url:
+            Photo.objects.create(post=self.object, image_url=image_url)
+
+        return response
+    
+    def get_success_url(self):
+        # redirect to the new Post’s detail page
+        return reverse("show_post", kwargs={"pk": self.object.pk})
+
+    def post(self, request, *args, **kwargs):
+        # handle the cancel button
+        if "cancel" in request.POST:
+            return redirect("show_profile", pk=self.kwargs['pk'])
+        return super().post(request, *args, **kwargs)
