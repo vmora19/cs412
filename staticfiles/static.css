@@ -93,3 +93,115 @@ img {
 #order-confirmation p{
     text-align: left;
 }
+
+#instagram-container{
+    display: flex;
+    flex-direction: row;
+    margin-top: 5%;
+}
+
+#i-container{
+    height: 100vh;
+}
+
+#insta-profile{
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    margin: auto;
+    border: 8px solid #450920;
+}
+
+#insta-container-name{
+    background-color: #450920;
+    color: white;
+}
+
+#insta-container-name h2{
+    color: white;
+}
+
+#insta-profile img {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+  }
+
+footer .white-house {
+    color: white;
+    font-size: calc(8px + 2vw);
+  }
+
+#mini-insta-footer{
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+}
+
+*{
+    margin: 0;
+}
+
+#insta-bio{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    margin: auto;
+    background-color: #450920;
+    padding: 3% 0%;
+    color: white;
+    text-align: center;
+    font-size: calc(3px + 2vw);
+}
+
+#insta-bio-name{
+    width: 60%;
+    margin: auto;
+}
+
+#insta-bio-image{
+    width: 40%;
+    margin: auto;
+}
+
+#posts-heading{
+    text-align: center;
+    font-size: calc(3px + 2vw);
+    color: white;
+    background-color: #450920;
+    margin-bottom: 2%;
+    padding-bottom: 2%;
+}
+
+#posts-container{
+    width: 80%;
+    margin: auto;
+    padding-bottom: 25%;
+}
+
+#posts-container p{
+    margin: auto;
+}
+
+#post-caption{
+    background-color: #450920;
+    margin: auto;
+    width: 50%;
+}
+
+#post-caption p{
+    color: white;
+    text-decoration: none;
+}
+
+#view-height{
+    height: 100vh;
+}
+
+footer{
+    color: white;
+}
