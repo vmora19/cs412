@@ -1,6 +1,6 @@
 # File: mini_insta/admin.py
-# Author: Valentina Mora (vmora19@bu.edu), 09/25/2025
-# Description: Admin file where we import Profile
+# Author: Valentina Mora (vmora19@bu.edu), 09/30/2025
+# Description: Admin file where we import Profile, Post, Photo
 
 from django.contrib import admin
 
