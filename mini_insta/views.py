@@ -5,9 +5,9 @@
 from django.db.models.base import Model as Model
 from django.db.models.query import QuerySet
 from django.shortcuts import render
-from django.views.generic import ListView, DetailView, CreateView, UpdateView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from .models import Profile, Post, Photo
-from .forms import CreatePostForm, UpdateProfileForm
+from .forms import CreatePostForm, UpdateProfileForm, UpdatePostForm
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse
 
@@ -36,6 +36,7 @@ class PostDetailView(DetailView):
     context_object_name = "post" # note singular variable name
 
     def get_context_data(self, **kwargs):
+        '''override the built in get_context_data to populate fields.'''
         context = super().get_context_data(**kwargs)
         post = self.get_object()
         context["photos"] = post.get_all_photos()  # explicitly call the method
@@ -52,6 +53,7 @@ class CreatePostView(CreateView):
     template_name = "mini_insta/create_post_form.html"
     
     def get_context_data(self, **kwargs):
+        '''override the built in get_context_data to populate fields.'''
         context = super().get_context_data(**kwargs)
         context["profile"] = Profile.objects.get(pk=self.kwargs["pk"])
         return context
@@ -88,3 +90,44 @@ class UpdateProfileView(UpdateView):
     def get_success_url(self):
         # redirect to the new profile page
         return reverse("show_profile", kwargs={"pk": self.object.pk})
+    
+
+class DeletePostView(DeleteView):
+    '''a view to handle the deletion of a post.'''
+    model = Post
+    template_name = "mini_insta/delete_post_form.html"
+
+    def get_context_data(self,  **kwargs):
+        '''override the built in get_context_data to populate fields.'''
+        context = super().get_context_data(**kwargs)
+        post = self.get_object()
+        profile = post.profile
+        context['post'] = post
+        context['profile'] = profile
+        return context
+    
+    def get_success_url(self):
+        '''redirect to the deleted post's corresponding profile detail page.'''
+        return reverse("show_profile", kwargs={"pk": self.object.pk})
+    
+
+class UpdatePostView(UpdateView):
+    '''a view to handle updating a post.'''
+    model = Post
+    form_class = UpdatePostForm
+    template_name = "mini_insta/update_post_form.html"
+
+    def get_context_data(self,  **kwargs):
+        '''override the built in get_context_data to populate fields.'''
+        context = super().get_context_data(**kwargs)
+        post = self.get_object()
+        profile = post.profile
+        caption = post.caption
+        context['post'] = post
+        context['caption'] = caption
+        context['profile'] = profile
+        return context
+    
+    def get_success_url(self):
+        '''redirect to the deleted post's corresponding profile detail page.'''
+        return reverse("show_post", kwargs={"pk": self.object.pk})

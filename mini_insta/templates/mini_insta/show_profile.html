@@ -16,7 +16,9 @@
                 <h3>Joined: {{profile.join_date}}</h3>
                 <h3>Followers: </h3>
                 <h3>Following: </h3>
-                <button><a href="{% url 'update_profile' profile.pk %}">Update</a></button>
+                <div id="update-button-container">
+                    <button class="update-profile-button"><a href="{% url 'update_profile' profile.pk %}">Update</a></button>
+                </div>     
             </div>
             <div id="insta-bio-image">
                 <img src="{{profile.profile_image_url}}">
@@ -32,7 +34,7 @@
                 <div>
                     {% with first_photo=post.get_first_photo %}
                         {% if first_photo %}
-                            <img src="{{ first_photo.image_url }}">
+                            <img src="{{ first_photo.get_image_url }}">
                         {% else %}
                             <img src="https://media.istockphoto.com/id/1500807425/vector/image-not-found-icon-vector-design.jpg?s=612x612&w=0&k=20&c=SF3EoL0zSi3XUwFzduMo3xdJFEk8V5IUsGqRocgPEtU=">
                         {% endif %}

@@ -6,13 +6,27 @@
 <!-- this displays a single Post. -->
 
 {% block content %}
-    <p>{{post.caption}} at {{post.timestamp}}</p>
-
-    {% for photo in post.get_all_photos %}
-        {% if photo.get_image_url %}
-            <img src="{{ photo.get_image_url }}">
-        {% endif %}
-    {% endfor %}
+    <div id="post-content">
+        {% for photo in post.get_all_photos %}
+            {% if photo.get_image_url %}
+                <img src="{{ photo.get_image_url }}">
+            {% endif %}
+        {% endfor %}  
+        <div id="post-caption">
+            <p>{{post.caption}} at {{post.timestamp}}</p>
+        </div>
+        
+        <div id="post-options">
+            <div id = "post-delete">
+                <h3><a href="{% url 'delete_post' post.pk %}">Delete</a></h3>
+            </div>
+            <div id="post-update">
+                <h3><a href="{% url 'update_post' post.pk %}">Update</a></h3>
+            </div>
+        </div>
+        
+    </div>
+    
 
 
 {% endblock %}

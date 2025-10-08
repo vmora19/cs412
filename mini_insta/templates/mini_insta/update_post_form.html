@@ -1,13 +1,13 @@
-<!-- mini_insta/update_profile_form.html 
+<!-- mini_insta/update_post_form.html 
     display the html form to update a post object
 -->
 
 {% extends 'mini_insta/base.html' %}
 
 {% block content %}
-<h1>Update Profile</h1>
+<h1>Update Post</h1>
 
-<form action="{% url 'update_profile' profile.pk %}" method="POST"
+<form action="{% url 'update_post' post.pk %}" method="POST"
 enctype="multipart/form-data">
     {% csrf_token %}
     <table>
