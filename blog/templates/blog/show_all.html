@@ -14,7 +14,13 @@
         <h3>by {{article.author}}</h3>
         <p>{{article.text}}</p>
         
-        <a href="{% url 'article' article.pk %}"><img src="{{article.image_url}}"></a>
+        <a href="{% url 'article' article.pk %}">
+            {% if article.image_file %}
+            <img src="{{article.image_file.url}}">
+            {% else %}
+            <p>no image to display.</p>
+            {% endif %}
+        </a>
         
     </div>
     <hr>

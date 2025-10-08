@@ -5,9 +5,9 @@
 from django.db.models.base import Model as Model
 from django.db.models.query import QuerySet
 from django.shortcuts import render
-from django.views.generic import ListView, DetailView, CreateView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView
 from .models import Profile, Post, Photo
-from .forms import CreatePostForm
+from .forms import CreatePostForm, UpdateProfileForm
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse
 
@@ -35,6 +35,12 @@ class PostDetailView(DetailView):
     template_name = "mini_insta/show_post.html"
     context_object_name = "post" # note singular variable name
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        post = self.get_object()
+        context["photos"] = post.get_all_photos()  # explicitly call the method
+        return context
+
 #define a subclass of CreateView to handle creation of Post objects
 class CreatePostView(CreateView):
     '''A view to handle creation of a new Post.
@@ -55,9 +61,10 @@ class CreatePostView(CreateView):
         form.instance.profile = profile
         response = super().form_valid(form)
 
-        image_url = self.request.POST.get("image_url")
-        if image_url:
-            Photo.objects.create(post=self.object, image_url=image_url)
+        files = self.request.FILES.getlist('files')
+        if files:
+            for file in files:
+                Photo.objects.create(post=self.object, image_file=file)
 
         return response
     
@@ -70,3 +77,14 @@ class CreatePostView(CreateView):
         if "cancel" in request.POST:
             return redirect("show_profile", pk=self.kwargs['pk'])
         return super().post(request, *args, **kwargs)
+    
+
+class UpdateProfileView(UpdateView):
+    '''a view to handle the update of a profile.'''
+    model = Profile
+    form_class = UpdateProfileForm
+    template_name = "mini_insta/update_profile_form.html"
+
+    def get_success_url(self):
+        # redirect to the new profile page
+        return reverse("show_profile", kwargs={"pk": self.object.pk})

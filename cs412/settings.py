@@ -149,3 +149,7 @@ STATIC_URL = '/vmora19/static/'
 STATICFILES_DIRS = [
 	os.path.join(BASE_DIR, "static")
 ]
+
+#declarations to reference media files
+MEDIA_ROOT= os.path.join(BASE_DIR, 'media/')
+MEDIA_URL = "/media/"

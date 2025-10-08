@@ -10,4 +10,13 @@ class CreateArticleForm(forms.ModelForm):
     class Meta:
         '''associate this form with a model from our database.'''
         model = Article
-        fields = ['author', 'title', 'text', 'image_url']
+        fields = ['author', 'title', 'text', 'image_file']
+
+
+class UpdateArticleForm(forms.ModelForm):
+    '''A form to update an article in the database.'''
+
+    class Meta:
+        '''associate this form with a model in our database.'''
+        model = Article
+        fields = ["title", "text"] # which fields we can update

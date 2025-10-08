@@ -8,13 +8,15 @@
 {% block content %}
 <h1>Create a new Post</h1>
 
-<form action="{% url 'create_post' profile.pk %}" method="POST">
+<form action="{% url 'create_post' profile.pk %}" method="POST"
+enctype="multipart/form-data">
     {% csrf_token %}
     <table>
         {{form.as_table}}
     </table>
 
-    Image URL: <input type="text" name="image_url" value="">
+    <input type="file" name="files" multiple>
+    <!-- Image URL: <input type="text" name="image_url" value=""> -->
     <br>
 
     <input type="submit" name="submit" value="Submit">

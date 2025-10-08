@@ -57,10 +57,17 @@ class Photo(models.Model):
     '''Encapsulate the data attributes of an image associated with a Post.'''
 
     post = models.ForeignKey(Post, on_delete=models.CASCADE) #foreign key
-    image_url = models.URLField(blank=True) 
+    image_url = models.URLField(blank=True)
+    image_file = models.ImageField(blank=True)
     timestamp = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         '''return a string representation of this model instance'''
         return f'{self.post}'
+    
+    def get_image_url(self):
+        '''return url of a photo.'''
+        if self.image_file:
+            return self.image_file.url
+        return self.image_url
 

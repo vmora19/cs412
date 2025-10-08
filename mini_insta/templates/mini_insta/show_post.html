@@ -9,7 +9,9 @@
     <p>{{post.caption}} at {{post.timestamp}}</p>
 
     {% for photo in post.get_all_photos %}
-    <img src="{{photo.image_url}}">
+        {% if photo.get_image_url %}
+            <img src="{{ photo.get_image_url }}">
+        {% endif %}
     {% endfor %}
 
 

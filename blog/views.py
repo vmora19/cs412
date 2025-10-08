@@ -3,10 +3,12 @@
 from django.db.models.base import Model as Model
 from django.db.models.query import QuerySet
 from django.shortcuts import render
-from django.views.generic import ListView, DetailView, CreateView
-from .models import Article
-from .forms import CreateArticleForm
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from .models import Article, Comment
+from .forms import CreateArticleForm, UpdateArticleForm
 import random
+from django.urls import reverse
+
 
 # Create your views here.
 class ShowAllView(ListView):
@@ -47,3 +49,38 @@ class CreateArticleView(CreateView):
 
     form_class = CreateArticleForm
     template_name = "blog/create_article_form.html"
+
+    def form_valid(self, form):
+        '''validating a form'''
+
+        #print out the form data
+        print(f'CreateArticleView.form_valid(): {form.cleaned_data}')
+
+        #delegate work to the superclass to do the rest:
+        return super().form_valid(form)
+    
+class UpdateArticleView(UpdateView):
+    '''View class to handle update of an article instance.'''
+    model=Article
+    form_class = UpdateArticleForm
+    template_name="blog/update_article_form.html"
+
+
+class DeleteCommentView(DeleteView):
+    '''View class to handle the deletion of a comment.'''
+
+    model = Comment
+    template_name = "blog/delete_comment_form.html"
+
+    def get_success_url(self):
+        '''Return the URL to redirect to after a successful delete.'''
+
+        # return super().get_success_url()
+        pk = self.kwargs['pk']
+
+        #find the Comment object:
+        comment = Comment.objects.get(pk=pk)
+
+        article = comment.article
+
+        return reverse('article', kwargs = {'pk':article.pk})
