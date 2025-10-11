@@ -59,6 +59,7 @@ class CreatePostView(CreateView):
         return context
     
     def form_valid(self, form):
+        '''validate incoming create post form'''
         profile = get_object_or_404(Profile, pk=self.kwargs['pk'])
         form.instance.profile = profile
         response = super().form_valid(form)
@@ -71,11 +72,11 @@ class CreatePostView(CreateView):
         return response
     
     def get_success_url(self):
-        # redirect to the new Post’s detail page
+        '''redirect to the new Post’s detail page'''
         return reverse("show_post", kwargs={"pk": self.object.pk})
 
     def post(self, request, *args, **kwargs):
-        # handle the cancel button
+        '''handle the cancel button'''
         if "cancel" in request.POST:
             return redirect("show_profile", pk=self.kwargs['pk'])
         return super().post(request, *args, **kwargs)
