@@ -131,12 +131,7 @@ STATICFILES_DIRS = [
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 MEDIA_URL= "media/"  # note: no leading slash!
 
-import socket
-CS_DEPLOYMENT_HOSTNAME = 'cs-webapps.bu.edu'
 
-if socket.gethostname() == CS_DEPLOYMENT_HOSTNAME:
-	STATIC_URL = '/vmora19/static/'
-	MEDIA_URL = '/vmora19/media/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
@@ -145,11 +140,17 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 #declarations to reference static files
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-STATIC_URL = '/vmora19/static/'
+STATIC_URL = 'vmora19/static/'
 STATICFILES_DIRS = [
 	os.path.join(BASE_DIR, "static")
 ]
 
-#declarations to reference media files
-MEDIA_ROOT= os.path.join(BASE_DIR, 'media/')
-MEDIA_URL = "media/"
+# #declarations to reference media files
+# MEDIA_ROOT= os.path.join(BASE_DIR, 'media/')
+# MEDIA_URL = "media/"
+import socket
+CS_DEPLOYMENT_HOSTNAME = 'cs-webapps.bu.edu'
+
+if socket.gethostname() == CS_DEPLOYMENT_HOSTNAME:
+	STATIC_URL = '/vmora19/static/'
+	MEDIA_URL = '/vmora19/media/'
