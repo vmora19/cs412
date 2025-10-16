@@ -67,7 +67,8 @@ class Photo(models.Model):
     
     def get_image_url(self):
         '''return url of a photo.'''
-        if self.image_file:
+        if self.image_url:
+            return self.image_url
+        else:
             return self.image_file.url
-        return self.image_url
 
