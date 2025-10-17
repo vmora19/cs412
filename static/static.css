@@ -280,3 +280,54 @@ input[type=submit]{
     text-decoration: none;
     color: white;
 }
+
+#create-post-link a{
+    color: white;
+    text-decoration: none;
+}
+
+#profile-container{
+    background-color: #450920;
+    color: white;
+    max-width: 50%;
+    margin: auto;
+    display: flex;
+    flex-direction: row;
+    padding-bottom: 2%;
+    padding-top: 2%;
+}
+
+#profile-container-left{
+    padding-left: 5%;
+
+}
+
+#profile-container-right{
+    padding-left: 5%;
+    padding-top: 3%;
+}
+
+#profile-container img{
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+
+#space-container{
+    margin-bottom: 5%;
+}
+
+#profile-container-right a{
+    color: white;
+    text-decoration: none;
+}
+
+#insta-bio-name h3 a{
+    color: white;
+    text-decoration: none;
+}
+
+#search-link a{
+    color: white;
+    text-decoration: none;
+}

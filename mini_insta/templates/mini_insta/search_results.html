@@ -1,0 +1,35 @@
+<!-- File: mini_insta/templates/mini_insta/search_results.html -->
+<!-- Author: Valentina Mora (vmora19@bu.edu), 10/17/2025 -->
+<!-- Description: Search results for profiles and posts -->
+
+{% extends 'mini_insta/base.html' %}
+
+{% block content %}
+<h1>Search Results for "{{ query }}"</h1>
+
+<h2>Matching Profiles</h2>
+{% if profiles %}
+    <ul>
+        {% for profile in profiles %}
+            <li>
+                <a href="{% url 'show_profile' profile.pk %}">{{ profile.username }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No profiles found.</p>
+{% endif %}
+
+<h2>Matching Posts</h2>
+{% if posts %}
+    <ul>
+        {% for post in posts %}
+            <li>
+                <a href="{% url 'show_post' post.pk %}">{{ post.caption }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No posts found.</p>
+{% endif %}
+{% endblock %}

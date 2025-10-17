@@ -1,0 +1,60 @@
+<!-- Author: Valentina Mora (vmora19@bu.edu), 10/17/2025 -->
+<!-- Description: HTML page to be used as for showing all feed -->
+
+<!-- mini_insta/templates/mini_insta/show_feed.html -->
+{% extends 'mini_insta/base.html' %}
+<h1>Showing all feed</h1>
+
+<!-- this displays the QuerySet of all Posts of a given profile. -->
+
+{% block content %}
+<h1>{{ profile.display_name }}'s Feed</h1>
+
+<div id="posts-container">
+    {% for post in posts %}  
+    <div id="space-container">
+        <div id="profile-container">
+            <div id="profile-container-left">
+                {% if post.profile.profile_image_url %}
+                <a href="{% url 'show_profile' post.profile.pk %}"><img src="{{ post.profile.profile_image_url }}"></a>
+                    
+                {% endif %} 
+            </div>
+            <div id="profile-container-right">
+                <a href="{% url 'show_profile' post.profile.pk %}"><strong>{{ post.profile.display_name }}</strong></a>
+                
+            </div>
+        </div>
+    
+        {% if post.get_first_photo %}
+        <img src="{{ post.get_first_photo.get_image_url }}">
+        {% endif %}
+        
+    
+        <div id="post-caption">
+            <p>{{ post.caption }}</p>
+    
+            <div id="likes">
+                {% if post.get_first_like %}
+                    <p>{{post.get_real_num_likes}} Likes
+                    </p>
+                {% else %}
+                    <p>No likes.</p>
+                {% endif %}
+            </div>
+    
+                {% for comment in post.get_all_comments %}
+                    <p><strong>{{ comment.profile.display_name }}</strong>: {{ comment.text }}</p>
+                {% empty %}
+                    <p>No comments yet.</p>
+                {% endfor %}
+        </div>
+    </div>  
+
+    {% empty %}
+        <p>No posts to show in your feed yet.</p>
+    {% endfor %}
+</div>
+
+
+{% endblock %}

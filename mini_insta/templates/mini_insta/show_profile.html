@@ -14,8 +14,8 @@
                 <h3>{{profile.display_name}}</h3>
                 <h3>{{profile.bio_text}}</h3>
                 <h3>Joined: {{profile.join_date}}</h3>
-                <h3>Followers: </h3>
-                <h3>Following: </h3>
+                <h3><a href="{% url 'show_followers' profile.pk %}">Followers: {{profile.get_num_followers}}</a></h3>
+                <h3><a href="{% url 'show_following' profile.pk %}">Following: {{profile.get_num_following}}</a></h3>
                 <div id="update-button-container">
                     <button class="update-profile-button"><a href="{% url 'update_profile' profile.pk %}">Update</a></button>
                 </div>     
@@ -27,9 +27,9 @@
             
         <h3 id = "posts-heading">Posts</h3>
         <!-- display the posts about this profile -->
+    
         <div id="posts-container">
             {% for post in profile.get_all_posts %}
-
             <a href="{% url 'show_post' post.pk %}">
                 <div>
                     {% with first_photo=post.get_first_photo %}
