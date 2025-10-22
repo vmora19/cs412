@@ -32,6 +32,10 @@ class ProfileDetailView(DetailView):
     template_name = "mini_insta/show_profile.html"
     context_object_name = "profile" # note singular variable name
 
+    def get_object(self):
+        '''return one instance of the Profile object.'''
+        return get_object_or_404(Profile, user=self.request.user)
+
 class PostDetailView(DetailView):
     '''Display a single post.'''
 
@@ -58,7 +62,7 @@ class CreatePostView(LoginRequiredMixin, CreateView):
     template_name = "mini_insta/create_post_form.html"
 
     def get_object(self):
-        '''return one instance of the Article object selected at random.'''
+        '''return one instance of the Profile object.'''
         return get_object_or_404(Profile, user=self.request.user)
 
     def get_login_url(self):
@@ -102,7 +106,7 @@ class UpdateProfileView(LoginRequiredMixin, UpdateView):
     template_name = "mini_insta/update_profile_form.html"
 
     def get_object(self):
-        '''return one instance of the Article object selected at random.'''
+        '''return one instance of the Profile object.'''
         return get_object_or_404(Profile, user=self.request.user)
 
     def get_login_url(self):
@@ -120,7 +124,7 @@ class DeletePostView(LoginRequiredMixin, DeleteView):
     template_name = "mini_insta/delete_post_form.html"
 
     def get_object(self):
-        '''return one instance of the Article object selected at random.'''
+        '''return one instance of the Profile object.'''
         return get_object_or_404(Profile, user=self.request.user)
 
     def get_login_url(self):
@@ -148,7 +152,7 @@ class UpdatePostView(LoginRequiredMixin, UpdateView):
     template_name = "mini_insta/update_post_form.html"
 
     def get_object(self):
-        '''return one instance of the Article object selected at random.'''
+        '''return one instance of the Post object.'''
         return get_object_or_404(Post, pk=self.kwargs['pk'])
 
     def get_login_url(self):
