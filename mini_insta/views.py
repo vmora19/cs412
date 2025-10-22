@@ -11,6 +11,8 @@ from .forms import CreatePostForm, UpdateProfileForm, UpdatePostForm
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse
 from django.db.models import Q
+from django.contrib.auth.mixins import LoginRequiredMixin
+
 
 
 import random
@@ -42,10 +44,11 @@ class PostDetailView(DetailView):
         context = super().get_context_data(**kwargs)
         post = self.get_object()
         context["photos"] = post.get_all_photos()  # explicitly call the method
+        context["profile"] = get_object_or_404(Profile, user=self.request.user)
         return context
 
 #define a subclass of CreateView to handle creation of Post objects
-class CreatePostView(CreateView):
+class CreatePostView(LoginRequiredMixin, CreateView):
     '''A view to handle creation of a new Post.
     (1) Display the html form to the user (GET)
     (2) Process form submission and store the new post object (POST)
@@ -53,6 +56,14 @@ class CreatePostView(CreateView):
 
     form_class = CreatePostForm
     template_name = "mini_insta/create_post_form.html"
+
+    def get_object(self):
+        '''return one instance of the Article object selected at random.'''
+        return get_object_or_404(Profile, user=self.request.user)
+
+    def get_login_url(self):
+        '''return the url for this app's login page'''
+        return reverse('login')
     
     def get_context_data(self, **kwargs):
         '''override the built in get_context_data to populate fields.'''
@@ -84,21 +95,37 @@ class CreatePostView(CreateView):
         return super().post(request, *args, **kwargs)
     
 
-class UpdateProfileView(UpdateView):
+class UpdateProfileView(LoginRequiredMixin, UpdateView):
     '''a view to handle the update of a profile.'''
     model = Profile
     form_class = UpdateProfileForm
     template_name = "mini_insta/update_profile_form.html"
+
+    def get_object(self):
+        '''return one instance of the Article object selected at random.'''
+        return get_object_or_404(Profile, user=self.request.user)
+
+    def get_login_url(self):
+        '''return the url for this app's login page'''
+        return reverse('login')
 
     def get_success_url(self):
         # redirect to the new profile page
         return reverse("show_profile", kwargs={"pk": self.object.pk})
     
 
-class DeletePostView(DeleteView):
+class DeletePostView(LoginRequiredMixin, DeleteView):
     '''a view to handle the deletion of a post.'''
     model = Post
     template_name = "mini_insta/delete_post_form.html"
+
+    def get_object(self):
+        '''return one instance of the Article object selected at random.'''
+        return get_object_or_404(Profile, user=self.request.user)
+
+    def get_login_url(self):
+        '''return the url for this app's login page'''
+        return reverse('login')
 
     def get_context_data(self,  **kwargs):
         '''override the built in get_context_data to populate fields.'''
@@ -114,11 +141,19 @@ class DeletePostView(DeleteView):
         return reverse("show_profile", kwargs={"pk": self.object.profile.pk})
     
 
-class UpdatePostView(UpdateView):
+class UpdatePostView(LoginRequiredMixin, UpdateView):
     '''a view to handle updating a post.'''
     model = Post
     form_class = UpdatePostForm
     template_name = "mini_insta/update_post_form.html"
+
+    def get_object(self):
+        '''return one instance of the Article object selected at random.'''
+        return get_object_or_404(Post, pk=self.kwargs['pk'])
+
+    def get_login_url(self):
+        '''return the url for this app's login page'''
+        return reverse('login')
 
     def get_context_data(self,  **kwargs):
         '''override the built in get_context_data to populate fields.'''
@@ -173,13 +208,13 @@ class PostFeedListView(ListView):
 
     def get_queryset(self):
         '''Return the posts in the feed for this profile.'''
-        profile = get_object_or_404(Profile, pk=self.kwargs['pk'])
+        profile = get_object_or_404(Profile, user=self.request.user)
         return profile.get_post_feed()
 
     def get_context_data(self, **kwargs):
         '''Add the current profile to the context.'''
         context = super().get_context_data(**kwargs)
-        context['profile'] = get_object_or_404(Profile, pk=self.kwargs['pk'])
+        context['profile'] = get_object_or_404(Profile, user=self.request.user)
         return context
     
     def get_success_url(self):
