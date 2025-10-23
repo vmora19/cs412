@@ -108,6 +108,10 @@ class Post(models.Model):
         likes = Like.objects.filter(post=self).count()
         return (likes)
     
+    def is_liked_by(self, profile):
+        '''return boolean to see if its liked by profile'''
+        return Like.objects.filter(post=self, profile=profile).exists()
+    
 
 class Photo(models.Model):
     '''Encapsulate the data attributes of an image associated with a Post.'''

@@ -13,7 +13,23 @@
             {% endif %}
         {% endfor %}  
         <div id="post-caption">
-            <p>{{post.caption}} at {{post.timestamp}} <a href="">👍</a></p>
+            <p>
+                {{ post.caption }} at {{ post.timestamp }}
+                
+                {% if request.user.is_authenticated and request.user != post.profile.user %}
+                    {% if has_liked %}
+                        <form action="{% url 'delete_like' post.pk %}" method="post">
+                            {% csrf_token %}
+                            <button type="submit" id="liked-button">👍</button>
+                        </form>
+                    {% else %}
+                        <form action="{% url 'like' post.pk %}" method="post">
+                            {% csrf_token %}
+                            <button type="submit" id="unliked-button">👍</button>
+                        </form>
+                    {% endif %}
+                {% endif %}
+            </p>
         </div>
 
         <div id="likes">

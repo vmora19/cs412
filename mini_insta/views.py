@@ -6,7 +6,7 @@ from django.db.models.base import Model as Model
 from django.db.models.query import QuerySet
 from django.shortcuts import render
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
-from .models import Profile, Post, Photo, Follow
+from .models import Profile, Post, Photo, Follow, Like
 from .forms import CreatePostForm, UpdateProfileForm, UpdatePostForm, CreateFollowForm, DeleteFollowForm
 from django.contrib.auth.forms import UserCreationForm
 from django.shortcuts import get_object_or_404, redirect
@@ -68,9 +68,12 @@ class PostDetailView(DetailView):
         user = self.request.user
         context["photos"] = post.get_all_photos()  # explicitly call the method
         if user.is_authenticated:
-            context["profile"] = get_object_or_404(Profile, user=self.request.user)
+            current_profile = get_object_or_404(Profile, user=user)
+            context["current_profile"] = current_profile
+            context["has_liked"] = post.get_likes().filter(profile=current_profile).exists()
         else:
-            context["profile"] = None
+            context["current_profile"] = None
+            context["has_liked"] = False
         return context
 
 #define a subclass of CreateView to handle creation of Post objects
@@ -381,5 +384,31 @@ class DeleteFollowView(LoginRequiredMixin, DeleteView):
         return reverse("show_profile", kwargs={"pk": self.object.profile.pk})
 
 
+class LikeDetailView(LoginRequiredMixin, CreateView):
+    '''a view to handle liking a post.'''
+    model = Like
+
+    def post(self, request, *args, **kwargs):
+        '''method for creating the like object'''
+        post = get_object_or_404(Post, pk=self.kwargs["pk"])
+        profile = get_object_or_404(Profile, user=request.user)
+
+        if post.profile != profile:
+            Like.objects.get_or_create(post=post, profile=profile)
+
+        return redirect("show_post", pk=post.pk)
+    
+class LikeDeleteView(LoginRequiredMixin, DeleteView):
+    '''a view to handle unliking a post.'''
+    model = Like
+
+    def post(self, request, *args, **kwargs):
+        '''method for deleting the like object'''
+        post = get_object_or_404(Post, pk=self.kwargs["pk"])
+        profile = get_object_or_404(Profile, user=request.user)
+        like = Like.objects.filter(post=post, profile=profile).first()
+        if like:
+            like.delete()
+        return redirect("show_post", pk=post.pk)
 
 
