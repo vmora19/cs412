@@ -17,9 +17,20 @@
                 <h3><a href="{% url 'show_followers' profile.pk %}">Followers: {{profile.get_num_followers}}</a></h3>
                 <h3><a href="{% url 'show_following' profile.pk %}">Following: {{profile.get_num_following}}</a></h3>
                 {% if request.user.is_authenticated and request.user == profile.user %}
-                <div id="update-button-container">
+                <div class="button-container">
                     <button class="update-profile-button"><a href="{% url 'update_profile' %}">Update</a></button>
                 </div>
+                {% elif request.user.is_authenticated and request.user != profile.user %}
+                    {% if is_following %}
+                        <div class="button-container">
+                            <button class="update-profile-button"><a href="{% url 'delete_follow' profile.pk %}">Unfollow</a></button>
+                        </div>
+                    {% else %}
+                        <div class="button-container">
+                            <button class="update-profile-button"><a href="{% url 'follow' profile.pk %}">Follow</a></button>
+                        </div>
+                        
+                    {% endif %}
                 {% endif %}     
             </div>
             <div id="insta-bio-image">

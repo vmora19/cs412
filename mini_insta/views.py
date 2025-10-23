@@ -7,7 +7,7 @@ from django.db.models.query import QuerySet
 from django.shortcuts import render
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from .models import Profile, Post, Photo, Follow
-from .forms import CreatePostForm, UpdateProfileForm, UpdatePostForm
+from .forms import CreatePostForm, UpdateProfileForm, UpdatePostForm, CreateFollowForm, DeleteFollowForm
 from django.contrib.auth.forms import UserCreationForm
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse
@@ -38,6 +38,22 @@ class ProfileDetailView(DetailView):
 
     login_url = reverse_lazy('login')
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        profile = self.get_object()
+
+        is_following = False
+
+        if self.request.user.is_authenticated and self.request.user != profile.user:
+            follower_profile = Profile.objects.get(user=self.request.user)
+            is_following = Follow.objects.filter(
+                follower_profile=follower_profile,
+                profile=profile
+            ).exists()
+
+        context["is_following"] = is_following
+        return context
+
 class PostDetailView(DetailView):
     '''Display a single post.'''
 
@@ -49,8 +65,12 @@ class PostDetailView(DetailView):
         '''override the built in get_context_data to populate fields.'''
         context = super().get_context_data(**kwargs)
         post = self.get_object()
+        user = self.request.user
         context["photos"] = post.get_all_photos()  # explicitly call the method
-        context["profile"] = get_object_or_404(Profile, user=self.request.user)
+        if user.is_authenticated:
+            context["profile"] = get_object_or_404(Profile, user=self.request.user)
+        else:
+            context["profile"] = None
         return context
 
 #define a subclass of CreateView to handle creation of Post objects
@@ -293,3 +313,73 @@ class CreateProfileView(CreateView):
     def get_success_url(self):
         '''redirect to the Profile's detail page'''
         return reverse('show_profile')
+    
+class CreateFollowView(LoginRequiredMixin, CreateView):
+    '''class for handling a profile following another profile'''
+    
+    model = Follow
+    form_class = CreateFollowForm
+    template_name = "mini_insta/follow_form.html"
+    
+    def get_login_url(self):
+        '''return the url for this app's login page'''
+        return reverse('login')
+    
+    def get_context_data(self, **kwargs):
+        '''override the built in get_context_data to populate fields.'''
+        context = super().get_context_data(**kwargs)
+        profile_to_follow = get_object_or_404(Profile, pk=self.kwargs["pk"])
+        follower_profile = get_object_or_404(Profile, user=self.request.user)
+
+        context["profile"] = profile_to_follow
+        context["follower_profile"] = follower_profile
+        return context
+    
+    def form_valid(self, form):
+        '''Set the follower and followed profiles before saving.'''
+        form.instance.profile = get_object_or_404(Profile, pk=self.kwargs["pk"])
+        form.instance.follower_profile = get_object_or_404(Profile, user=self.request.user)
+        return super().form_valid(form)
+    
+    def get_success_url(self):
+        '''redirect to the new followed profile's detail page'''
+        return reverse("show_profile", kwargs={"pk": self.object.profile.pk})
+    
+
+class DeleteFollowView(LoginRequiredMixin, DeleteView):
+    '''a view to handle the deletion of a follow relationship.'''
+    model = Follow
+    template_name = "mini_insta/delete_follow_form.html"
+    form_class = DeleteFollowForm
+
+    def get_login_url(self):
+        '''return the url for this app's login page'''
+        return reverse('login')
+    
+    def get_object(self, queryset=None):
+        '''return the follow object between the current user and target profile.'''
+        profile_to_unfollow = get_object_or_404(Profile, pk=self.kwargs["pk"])
+        follower_profile = get_object_or_404(Profile, user=self.request.user)
+
+        return get_object_or_404(
+            Follow,
+            profile=profile_to_unfollow,
+            follower_profile=follower_profile
+        )
+    
+    def get_context_data(self,  **kwargs):
+        '''override the built in get_context_data to populate fields.'''
+        context = super().get_context_data(**kwargs)
+        profile_to_unfollow = get_object_or_404(Profile, pk=self.kwargs["pk"])
+        follower_profile = get_object_or_404(Profile, user=self.request.user)
+        context["profile"] = profile_to_unfollow
+        context["follower_profile"] = follower_profile
+        return context
+    
+    def get_success_url(self):
+        '''redirect to the corresponding profile detail page that was unfollowed.'''
+        return reverse("show_profile", kwargs={"pk": self.object.profile.pk})
+
+
+
+

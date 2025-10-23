@@ -230,7 +230,7 @@ footer{
     color: white; 
 }
 
-#update-button-container{
+.button-container{
     padding-top: 4%;
 }
 
@@ -330,4 +330,26 @@ input[type=submit]{
 #search-link a{
     color: white;
     text-decoration: none;
+}
+
+#logout-button{
+    background-color: #450920;
+    color: white;
+    border: none;
+    text-align: center;
+    text-decoration: none;
+    padding: 1% 0;
+    display: block;
+    margin: 0 auto;
+    width: fit-content;
+    font-family: "Arial", sans-serif;
+    font-size: calc(1px + 1vw);
+}
+
+nav ul li:hover {
+    background-color: #a53860;
+}
+
+#logout-button:hover{
+    background-color: #a53860;
 }
