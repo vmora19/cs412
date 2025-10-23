@@ -14,7 +14,7 @@
     {% for profile in profiles %}
     <div id="insta-profile">
         <div id="insta-container-image">
-            <a href="{% url 'show_profile' %}"><img src="{{profile.profile_image_url}}"></a>
+            <a href="{% url 'show_profile' profile.pk %}"><img src="{{profile.profile_image_url}}"></a>
         </div>
         <div id="insta-container-name">
             <h2>{{profile.username}}</h2>

@@ -8,10 +8,14 @@ from django.shortcuts import render
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from .models import Profile, Post, Photo, Follow
 from .forms import CreatePostForm, UpdateProfileForm, UpdatePostForm
+from django.contrib.auth.forms import UserCreationForm
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse
 from django.db.models import Q
+from django.contrib.auth import login
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.urls import reverse_lazy
+
 
 
 
@@ -32,9 +36,7 @@ class ProfileDetailView(DetailView):
     template_name = "mini_insta/show_profile.html"
     context_object_name = "profile" # note singular variable name
 
-    def get_object(self):
-        '''return one instance of the Profile object.'''
-        return get_object_or_404(Profile, user=self.request.user)
+    login_url = reverse_lazy('login')
 
 class PostDetailView(DetailView):
     '''Display a single post.'''
@@ -72,12 +74,12 @@ class CreatePostView(LoginRequiredMixin, CreateView):
     def get_context_data(self, **kwargs):
         '''override the built in get_context_data to populate fields.'''
         context = super().get_context_data(**kwargs)
-        context["profile"] = Profile.objects.get(pk=self.kwargs["pk"])
+        context["profile"] = Profile.objects.get(user=self.request.user)
         return context
     
     def form_valid(self, form):
         '''validate incoming create post form'''
-        profile = get_object_or_404(Profile, pk=self.kwargs['pk'])
+        profile = Profile.objects.get(user=self.request.user)
         form.instance.profile = profile
         response = super().form_valid(form)
 
@@ -123,10 +125,6 @@ class DeletePostView(LoginRequiredMixin, DeleteView):
     model = Post
     template_name = "mini_insta/delete_post_form.html"
 
-    def get_object(self):
-        '''return one instance of the Profile object.'''
-        return get_object_or_404(Profile, user=self.request.user)
-
     def get_login_url(self):
         '''return the url for this app's login page'''
         return reverse('login')
@@ -153,7 +151,7 @@ class UpdatePostView(LoginRequiredMixin, UpdateView):
 
     def get_object(self):
         '''return one instance of the Post object.'''
-        return get_object_or_404(Post, pk=self.kwargs['pk'])
+        return get_object_or_404(Post, pk=self.kwargs["pk"])
 
     def get_login_url(self):
         '''return the url for this app's login page'''
@@ -236,7 +234,7 @@ class SearchView(ListView):
     def dispatch(self, request, *args, **kwargs):
         '''if no query render template form, otherwise return dispatch'''
         if "q" not in self.request.GET:
-            profile = get_object_or_404(Profile, pk=self.kwargs["pk"])
+            profile = get_object_or_404(Profile, user=self.request.user)
             return render(request, "mini_insta/search.html", {"profile": profile})
         return super().dispatch(request, *args, **kwargs)
 
@@ -266,3 +264,32 @@ class SearchView(ListView):
         context["posts"] = posts
         context["profiles"] = matching_profiles
         return context
+    
+class CreateProfileView(CreateView):
+    '''A view for handling creating a profile.'''
+    model = Profile
+    template_name = "mini_insta/create_profile_form.html"
+    fields = ['username', 'display_name', 'profile_image_url', 'bio_text']
+
+    def get_context_data(self, **kwargs):
+        ''''override the built in get_context_data to populate fields.'''
+        context = super().get_context_data(**kwargs)
+        context['user_form'] = UserCreationForm()
+        return context
+    
+    def form_valid(self, form):
+        '''validate incoming create profile form'''
+        user_form = UserCreationForm(self.request.POST)
+        if user_form.is_valid():
+            user = user_form.save()
+            login(self.request, user, backend='django.contrib.auth.backends.ModelBackend')
+            form.instance.user = user
+            return super().form_valid(form)
+        else:
+            context = self.get_context_data(form=form)
+            context['user_form'] = user_form
+            return self.render_to_response(context)
+    
+    def get_success_url(self):
+        '''redirect to the Profile's detail page'''
+        return reverse('show_profile')

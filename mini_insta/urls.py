@@ -14,7 +14,7 @@ from django.contrib.auth import views as auth_views
 urlpatterns = [
     path(r'', ProfileListView.as_view(), name="show_all_profiles"),
     path(r'show_all_profiles', ProfileListView.as_view(), name="show_all_profiles"),
-    path(r'profile/', ProfileDetailView.as_view(), name='show_profile'),
+    path(r'profile/<int:pk>/', ProfileDetailView.as_view(), name='show_profile'),
     path(r'post/<int:pk>', PostDetailView.as_view(), name='show_post'),    
     path(r'profile/create_post', CreatePostView.as_view(), name="create_post"),
     path(r'profile/update', UpdateProfileView.as_view(), name="update_profile"),
@@ -26,4 +26,5 @@ urlpatterns = [
     path(r'profile/search', SearchView.as_view(), name="show_search"),
     path('login/', auth_views.LoginView.as_view(template_name="mini_insta/login.html"), name="login"),
     path('logout/', auth_views.LogoutView.as_view(template_name='mini_insta/logged_out.html'), name="logout_confirmation"),
+    path('create_profile', CreateProfileView.as_view(), name="create_profile"),
 ]
