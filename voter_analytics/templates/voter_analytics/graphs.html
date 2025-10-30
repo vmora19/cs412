@@ -1,0 +1,103 @@
+<!-- voter_analytics/templates/voter_analytics/graphs.html -->
+{% extends 'voter_analytics/base.html' %}
+
+{% block content %}
+
+<h3>Search Form</h3>
+
+<form action="{% url 'graphs' %}" method="GET">
+    <table>
+        <!-- party info -->
+        <tr>
+            <th>Party affiliation:</th>
+            <td>
+                <select name="party">
+                    <option value="">--Any--</option>
+                    <option value="U">U</option>
+                    <option value="D">D</option>
+                    <option value="R">R</option>
+                    <option value="J">J</option>
+                    <option value="A">A</option>
+                    <option value="CC">CC</option>
+                </select>
+            </td>
+        </tr>
+
+        <!-- minimum dob -->
+        <tr>
+            <th>Minimum Date of Birth:</th>
+            <td>
+                <input type="date" name="min_dob">
+            </td>
+        </tr>
+
+        <!-- maximum dob -->
+        <tr>
+            <th>Maximum Date of Birth:</th>
+            <td>
+                <input type="date" name="max_dob">
+            </td>
+        </tr>
+
+        <!-- Voter score -->
+        <tr>
+            <th>Voter Score:</th>
+            <td>
+                <select name="voter_score">
+                    <option value="">--Any--</option>
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
+            </td>
+        </tr>
+
+        <!-- voted info -->
+        <tr>
+            <th>Voted in elections:</th>
+            <td>
+                <input type="checkbox" name="v20" id="v20">
+                <label for="v20">v20state</label><br>
+                <input type="checkbox" name="v21town" id="v21town">
+                <label for="v21town">v21town</label><br>
+                <input type="checkbox" name="v21primary" id="v21primary">
+                <label for="v21primary">v21primary</label><br>
+                <input type="checkbox" name="v22" id="v22">
+                <label for="v22">v22general</label><br>
+                <input type="checkbox" name="v23" id="v23">
+                <label for="v23">v23town</label><br>
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                <input type="submit" value="Filter">
+            </td>
+        </tr>
+    </table>
+</form>
+
+
+<div class="container mt-4">
+    <h2>Voter Analytics Dashboard</h2>
+
+    <div class="mt-4">
+        <h4>1. Distribution of Voters by Year of Birth</h4>
+        {{ graph_birth|safe }}
+    </div>
+
+    <div class="mt-4">
+        <h4>2. Distribution of Voters by Party Affiliation</h4>
+        {{ graph_party|safe }}
+    </div>
+
+    <div class="mt-4">
+        <h4>3. Voter Participation Across Elections</h4>
+        {{ graph_participation|safe }}
+    </div>
+</div>
+
+{% endblock %}
