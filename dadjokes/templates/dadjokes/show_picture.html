@@ -1,0 +1,22 @@
+<!-- Author: Valentina Mora (vmora19@bu.edu), 11/11/2025 -->
+<!-- Description: HTML page to be used as for showing single picture -->
+
+<!-- dadjokes/templates/dadjokes/show_picture.html -->
+{% extends 'dadjokes/base.html' %}
+<!-- this displays a single Picture. -->
+
+{% block content %}
+
+    <div class="joke-2">
+        {% if picture %}
+        <img src="{{ picture.picture }}">
+        {% else %}
+        <p>No picture available.</p>
+        {% endif %}
+
+        <h3>by {{picture.name}}</h3>
+        <p>at {{picture.timestamp}}</p> 
+    </div>
+    
+                
+{% endblock %}

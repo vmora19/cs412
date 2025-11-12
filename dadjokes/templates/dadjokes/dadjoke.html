@@ -1,0 +1,17 @@
+<!-- dadjokes/dadjoke.html -->
+{% extends 'dadjokes/base.html' %}
+
+{% block content %}
+<div class="joke">
+        <h2><a href="{% url 'show_joke' joke.pk %}">{{joke.text}}</a></h2>
+        
+        {% if picture %}
+        <a href="{% url 'show_picture' picture.pk %}"><img src="{{ picture.picture }}"></a>
+        {% else %}
+        <p>No picture available.</p>
+        {% endif %}
+
+        <h3>by {{joke.name}}</h3>
+        <p>{{joke.timestamp}}</p>
+</div>
+{% endblock %}

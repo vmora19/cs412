@@ -1,0 +1,25 @@
+<!-- dadjokes/all_pictures.html -->
+{% extends 'dadjokes/base.html' %}
+<h1>Showing all pictures</h1>
+
+<!-- this displays the QuerySet of all pictures. -->
+
+{% block content %}
+<div class="outer-joke">
+    <!-- scriplet code for a for loop -->
+    {% for picture in pictures %}
+    <div class="joke-2">
+
+        {% if picture %}
+        <a href="{% url 'show_picture' picture.pk %}"><img src="{{ picture.picture }}"></a>
+        
+        {% else %}
+        <p>No picture available.</p>
+        {% endif %}
+
+        <h3>by {{picture.name}}</h3>
+        <p>at {{picture.timestamp}}</p>  
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

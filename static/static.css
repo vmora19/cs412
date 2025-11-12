@@ -385,3 +385,61 @@ nav ul li:hover {
 
 
 }
+
+.joke{
+    width: 60%;
+    text-align: center;
+    background-color: #a53860;
+    border-radius: 5%;
+    color: white;
+    margin: auto;
+}
+
+.joke h2{
+    margin: 2% 0;
+}
+
+.joke a{
+    text-decoration: none;
+    color: white;
+}
+
+.joke img{
+    width: 30%;
+    margin-bottom: 2%;
+}
+
+.joke p{
+    padding-bottom: 2%;
+    color: white;
+}
+
+.joke-2{
+    width: 40%;
+    text-align: center;
+    background-color: #a53860;
+    border-radius: 5%;
+    color: white;
+    margin: auto auto 5% auto;
+}
+
+.joke-2 h2{
+    margin: 2% 0;
+}
+
+.joke-2 a{
+    text-decoration: none;
+    color: white;
+}
+
+.joke-2 img{
+    width: 30%;
+    padding-top: 5%;
+    margin-top: 2%;
+    margin-bottom: 2%;
+}
+
+.joke-2 p{
+    padding-bottom: 2%;
+    color: white;
+}

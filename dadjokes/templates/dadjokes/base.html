@@ -1,0 +1,22 @@
+<!-- dadjokes/base.html -->
+{% load static %}
+<html>
+    <head>
+        <title>My Dad Jokes</title>
+        <link rel="stylesheet" type="text/css" href="{% static 'static.css' %}">
+    </head>
+    <body>
+        <h1>Dad Jokes Application</h1>
+        <nav>
+            <ul>
+                <li><a href="{% url 'random' %}">Random</a></li>
+                <li><a href="{% url 'all_jokes' %}">All Jokes</a></li>
+                <li><a href="{% url 'all_pictures' %}">All Pictures</a></li>
+            </ul>
+            <hr>
+        </nav>
+        <!-- substitute in the specific content here -->
+        {% block content %}
+        {% endblock %}
+    </body>
+</html>

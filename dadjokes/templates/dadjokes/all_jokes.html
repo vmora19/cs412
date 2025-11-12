@@ -1,0 +1,18 @@
+<!-- dadjokes/all_jokes.html -->
+{% extends 'dadjokes/base.html' %}
+<h1>Showing all jokes</h1>
+
+<!-- this displays the QuerySet of all jokes. -->
+
+{% block content %}
+<div>
+    <!-- scriplet code for a for loop -->
+    {% for joke in jokes %}
+    <div class="joke">
+        <h2><a href="{% url 'show_joke' joke.pk %}">{{joke.text}}</a></h2>
+        <h3>by {{joke.name}}</h3>
+        <p>at {{joke.timestamp}}</p>  
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

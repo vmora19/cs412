@@ -1,0 +1,14 @@
+<!-- Author: Valentina Mora (vmora19@bu.edu), 11/11/2025 -->
+<!-- Description: HTML page to be used as for showing single joke -->
+
+<!-- dadjokes/templates/dadjokes/show_joke.html -->
+{% extends 'dadjokes/base.html' %}
+<!-- this displays a single Joke. -->
+
+{% block content %}
+
+    <h2>{{joke.text}}</h2>
+    <h3>{{joke.name}}</h3>
+    <h3>{{joke.timestamp}}</h3>
+                
+{% endblock %}
