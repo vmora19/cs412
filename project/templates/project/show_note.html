@@ -1,0 +1,22 @@
+<!-- Author: Valentina Mora (vmora19@bu.edu), 12/03/2025 -->
+<!-- Description: HTML page to be used as for showing a single note -->
+
+<!-- project/templates/project/show_note.html -->
+{% extends 'project/base.html' %}
+<!-- this displays a single Note. -->
+
+{% block content %}
+<h1 class="subheading">Note Details</h1>
+
+<div class="single-note-card">
+    <h2 class="single-note-title">{{ note.title_text }}</h2>
+    <p class="single-note-author">Author: {{ note.profile }}</p>
+    <p class="single-note-text">{{ note.note_text }}</p>
+    <p class="single-note-date">{{ note.date|date:"M d, Y H:i" }}</p>
+
+    <div class="note-actions">
+        <a href="{% url 'update_note' note.pk %}" class="submit-btn">Edit</a>
+        <a href="{% url 'delete_note' note.pk %}" class="cancel-btn">Delete</a>
+    </div>
+</div>
+{% endblock %}

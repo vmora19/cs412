@@ -1,0 +1,49 @@
+<!-- Author: Valentina Mora (vmora19@bu.edu), 12/02/2025 -->
+<!-- Description: HTML page to be used as for showing all transactions -->
+
+<!-- project/templates/project/show_all_transactions.html -->
+{% extends 'project/base.html' %}
+<!-- this displays the QuerySet of all transactions. -->
+
+{% block content %}
+<h1 class="subheading">Transactions</h1>
+
+<form method="get" class="filter-form">
+    <label>Category:</label>
+    <select name="category" onchange="this.form.submit()">
+        <option value="">All</option>
+        {% for category in categories %}
+            <option value="{{ category.id }}" {% if selected_category == category.id|stringformat:"s" %}selected{% endif %}>
+                {{ category.category_name }}
+            </option>
+        {% endfor %}
+    </select>
+
+    <label>Account:</label>
+    <select name="account" onchange="this.form.submit()">
+        <option value="">All</option>
+        {% for account in accounts %}
+            <option value="{{ account.id }}" {% if selected_account == account.id|stringformat:"s" %}selected{% endif %}>
+                {{ account.bank }} ({{ account.card_type }})
+            </option>
+        {% endfor %}
+    </select>
+</form>
+
+<div class="transactions-container">
+    {% for transaction in transactions %}
+    <a href="{% url 'show_transaction' transaction.pk %}">
+        <div class="transaction-card">
+            <h3 class="transaction-account">{{ transaction.account.bank }} ({{ transaction.account.card_type }})</h3>
+            <p class="transaction-category">Category: {{ transaction.category.category_name }}</p>
+            <p class="transaction-amount">${{ transaction.amount }}</p>
+        </div>
+    </a>
+    {% empty %}
+    <p>No transactions found.</p>
+    {% endfor %}
+</div>
+
+<a href="{% url 'create_transaction' %}" class="create-button">+</a>
+
+{% endblock %}

@@ -1,0 +1,25 @@
+<!-- Author: Valentina Mora (vmora19@bu.edu), 12/03/2025 -->
+<!-- Description: HTML page to update a note object -->
+
+<!-- project/update_note_form.html 
+    display the html form to update a note object
+-->
+
+{% extends 'project/base.html' %}
+
+{% block content %}
+<h1 class="subheading">Update Note</h1>
+
+<form action="{% url 'update_note' note.pk %}" method="POST" class="form-container">
+    {% csrf_token %}
+    
+    <div class="form-fields">
+        {{ form.as_p }}
+    </div>
+
+    <div class="form-actions">
+        <button type="submit" class="submit-btn">Update</button>
+        <a href="{% url 'show_note' note.pk %}" class="cancel-btn">Cancel</a>
+    </div>
+</form>
+{% endblock %}

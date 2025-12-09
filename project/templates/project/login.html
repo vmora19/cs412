@@ -1,0 +1,25 @@
+<!-- Author: Valentina Mora (vmora19@bu.edu), 12/03/2025 -->
+<!-- Description: HTML page to be used as for showing a login page -->
+
+<!-- project/templates/project/login.html -->
+
+{% extends 'project/base.html' %}
+
+
+{% block content %}
+<h1 class="subheading">Login</h1>
+
+<form method="POST" class="form-container">
+    {% csrf_token %}
+    
+    <div class="form-fields">
+        {{ form.as_p }}
+    </div>
+
+    <div class="form-actions">
+        <button type="submit" class="submit-btn">Login</button>
+        <a href="{% url 'show_dashboard' %}" class="cancel-btn">Cancel</a>
+    </div>
+</form>
+
+{% endblock %}p

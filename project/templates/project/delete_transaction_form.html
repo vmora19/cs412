@@ -1,0 +1,33 @@
+<!-- Author: Valentina Mora (vmora19@bu.edu), 12/03/2025 -->
+<!-- Description: HTML page to delete a post object -->
+
+<!-- project/delete_transaction_form.html 
+    display the html form to delete a transaction object
+-->
+
+{% extends 'project/base.html' %}
+
+{% block content %}
+<h1 class="subheading">Delete Transaction</h1>
+<h3 style="text-align:center; color:#a94442; margin-bottom: 20px;">
+    Are you sure you want to delete this transaction?
+</h3>
+
+<div class="form-container">
+
+    <form action="{% url 'delete_transaction' transaction.pk %}" method="POST">
+        {% csrf_token %}
+
+        <div class="form-actions">
+            <button type="submit" class="submit-btn" style="background-color:#c0392b;">
+                Delete
+            </button>
+            <a href="{% url 'show_all_transactions' %}" class="cancel-btn">
+                Cancel
+            </a>
+        </div>
+
+    </form>
+
+</div>
+{% endblock %}

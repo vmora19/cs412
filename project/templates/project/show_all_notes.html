@@ -1,0 +1,29 @@
+<!-- Author: Valentina Mora (vmora19@bu.edu), 12/02/2025 -->
+<!-- Description: HTML page to be used as for showing all notes -->
+
+<!-- project/templates/project/show_all_notes.html -->
+{% extends 'project/base.html' %}
+<h1>Showing all notes</h1>
+
+<!-- this displays the QuerySet of all notes. -->
+
+{% block content %}
+<h1 class="subheading">All Notes</h1>
+
+<div class="notes-container">
+    {% for note in notes %}
+    <a href="{% url 'show_note' note.pk %}">
+       <div class="note-container">
+            <p class="note-author">{{ note.profile }}</p>
+            <h2 class="note-title">{{ note.title_text }}</h2>
+            <p class="note-text">{{ note.note_text }}</p>
+            <p class="note-date">{{ note.date|date:"M d, Y H:i" }}</p>
+        </div> 
+    </a>
+    
+    {% endfor %}
+</div>
+
+<a href="{% url 'create_note' %}" class="create-button">+</a>
+
+{% endblock %}

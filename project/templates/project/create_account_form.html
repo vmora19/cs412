@@ -1,0 +1,23 @@
+<!-- Author: Valentina Mora (vmora19@bu.edu), 12/04/2025 -->
+<!-- Description: display the html form to create a new Account object -->
+
+<!-- project/templates/project/create_account_form.html -->
+
+{% extends 'project/base.html' %}
+
+{% block content %}
+<h1 class="subheading">Create a New Account</h1>
+
+<form action="{% url 'create_account' %}" method="POST" class="form-container">
+    {% csrf_token %}
+    
+    <div class="form-fields">
+        {{ form.as_p }}
+    </div>
+
+    <div class="form-actions">
+        <button type="submit" class="submit-btn">Submit</button>
+        <a href="{% url 'show_dashboard' %}" class="cancel-btn">Cancel</a>
+    </div>
+</form>
+{% endblock %}

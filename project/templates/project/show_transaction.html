@@ -1,0 +1,30 @@
+<!-- Author: Valentina Mora (vmora19@bu.edu), 12/03/2025 -->
+<!-- Description: HTML page to be used as for showing a single transaction -->
+
+<!-- project/templates/project/show_transaction.html -->
+{% extends 'project/base.html' %}
+<!-- this displays a single Transaction. -->
+
+{% block content %}
+<h1 class="subheading">Transaction Details</h1>
+
+<div class="transaction">
+    <p class="td-label"><strong>Account:</strong></p>
+    <p class="td-value">{{ transaction.account.bank }} ({{ transaction.account.card_type }})</p>
+
+    <p class="td-label"><strong>Category:</strong></p>
+    <p class="td-value">{{ transaction.category.category_name }}</p>
+
+    <p class="td-label"><strong>Amount:</strong></p>
+    <p class="td-value amount">${{ transaction.amount }}</p>
+
+    <p class="td-label"><strong>Description:</strong></p>
+    <p class="td-value">{{ transaction.description|default:"No description" }}</p>
+
+    <div class="transaction-detail-actions">
+        <a class="submit-btn" href="{% url 'update_transaction' transaction.pk %}">Edit</a>
+        <a class="cancel-btn" href="{% url 'delete_transaction' transaction.pk %}">Delete</a>
+        <a class="back-btn" href="{% url 'show_all_transactions' %}">All Transactions</a>
+    </div>
+</div>
+{% endblock %}

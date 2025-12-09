@@ -1,0 +1,35 @@
+<!-- Author: Valentina Mora (vmora19@bu.edu), 12/02/2025 -->
+<!-- Description: HTML page to be used as for showing a single profile -->
+
+<!-- project/templates/project/show_profile.html -->
+{% extends 'project/base.html' %}
+<!-- this displays a single Profile. -->
+
+{% block content %}
+<h1 class="subheading">Profile</h1>
+
+<div class="profile-card">
+    {% if profile.profile_image_url %}
+    <img src="{{ profile.profile_image_url }}" class="profile-card-img" alt="Profile Image">
+    {% else %}
+    <div class="default-profile-icon-large">👤</div>
+    {% endif %}
+
+    <h2 class="profile-card-name">
+        {{ profile.display_name|default:profile.user.username }}
+    </h2>
+
+    {% if profile.bio_text %}
+    <p class="profile-card-bio">{{ profile.bio_text }}</p>
+    {% else %}
+    <p class="profile-card-bio muted">No bio added yet.</p>
+    {% endif %}
+
+    {% if request.user == profile.user %}
+    <div class="profile-actions">
+        <a href="{% url 'update_profile' profile.pk %}" class="submit-btn">Edit Profile</a>
+        <a href="{% url 'show_dashboard' %}" class="cancel-btn">Back to Dashboard</a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,38 @@
+<!-- Author: Valentina Mora (vmora19@bu.edu), 12/03/2025 -->
+<!-- Description: HTML page to be used as for showing a single account -->
+
+<!-- project/templates/project/show_account.html -->
+{% extends 'project/base.html' %}
+<!-- this displays a single Account. -->
+
+{% block content %}
+<h1 class="subheading">Account Details</h1>
+
+<div class="account-detail-card">
+    <h2 class="account-title">{{ account.bank }} ({{ account.card_type }})</h2>
+
+    <div class="account-info-row">
+        <span class="label">Card Number:</span>
+        <span class="value">•••• {{ account.card_num|slice:"-4:" }}</span>
+    </div>
+
+    <div class="account-info-row">
+        <span class="label">Total Budget:</span>
+        <span class="value">${{ account.remaining_money|add:account.total_spent }}</span>
+    </div>
+
+    <div class="account-info-row">
+        <span class="label">Total Spent:</span>
+        <span class="value spent">${{ account.total_spent }}</span>
+    </div>
+
+    <div class="account-info-row">
+        <span class="label">Remaining:</span>
+        <span class="value remaining">${{ account.remaining_money }}</span>
+    </div>
+
+    <div class="account-detail-actions">
+        <a href="{% url 'show_all_transactions' %}" class="btn-primary">View Transactions</a>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,62 @@
+<!-- Author: Valentina Mora (vmora19@bu.edu), 12/02/2025 -->
+<!-- Description: base HTML page to be used as template for other HTML pages -->
+
+<!-- project/templates/project/base.html -->
+{% load static %}
+<html>
+    <head>
+        <title>Project</title>
+        <link rel="stylesheet" type="text/css" href="{% static 'project.css' %}">
+    </head>
+    <body>
+        <header class="header">
+            <h1 class="title"><a href="{% url 'show_dashboard' %}">FinancialTracker 🏛️</a></h1>
+            <nav class="nav">
+                {% if user.is_authenticated %}
+                    <a class="link" href="{% url 'show_dashboard' %}">Dashboard</a>
+                    <a class="link" href="{% url 'show_all_notes' %}">Notes</a>
+                    <a class="link" href="{% url 'show_all_transactions' %}">Transactions</a>
+
+                    <div class="profile-menu">
+                        {% if user.financial_profile and user.financial_profile.profile_image_url %}
+                        <img src="{{ user.financial_profile.profile_image_url }}" alt="profile image" class="profile-pic" id="profileIcon">
+                        {% else %}
+                        <div class="no-profile-pic">👤</div>
+                        {% endif %}
+            
+                        <div class="dropdown" id="dropdownMenu">
+                            <a href="{% url 'show_profile' user.financial_profile.pk %}">View Profile</a>
+                            <a href="{% url 'logout' %}">Logout</a>
+                        </div>
+                    </div>
+                {% else %}
+                    <a href="{% url 'login' %}">Login</a>
+                {% endif %}
+            </nav>
+        </header>
+        <div class="content-wrapper">
+            {% block content %}
+            {% endblock %}
+        </div>
+        
+    </body>
+    <footer class="site-footer">
+        All Rights Reserved by Valentina Mora © 
+    </footer>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const profileIcon = document.getElementById("profileIcon");
+            const dropdownMenu = document.getElementById("dropdownMenu");
+    
+            profileIcon.addEventListener("click", () => {
+                dropdownMenu.classList.toggle("show");
+            });
+    
+            document.addEventListener("click", (event) => {
+                if (!profileIcon.contains(event.target)) {
+                    dropdownMenu.classList.remove("show");
+                }
+            });
+        });
+    </script>
+</html>

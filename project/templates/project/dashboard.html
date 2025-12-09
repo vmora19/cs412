@@ -1,0 +1,49 @@
+<!-- Author: Valentina Mora (vmora19@bu.edu), 12/04/2025 -->
+<!-- Description:  HTML page to be used to display dashboard -->
+
+<!-- project/templates/project/dashboard.html -->
+{% extends 'project/base.html' %}
+
+{% block content %}
+<h1 class="subheading">Dashboard</h1>
+
+<div class="dashboard-container">
+
+    <div class="account-container">
+        <div class="section-header">
+            <h2>Accounts</h2>
+            <a href="{% url 'create_account' %}" class="section-add-btn">+ Add</a>
+        </div>
+
+        {% for account in accounts %}
+        <a href="{% url 'show_account' account.pk %}">
+            <div class="account-card">
+                <h3>{{ account.bank }} ({{ account.card_type }})</h3>
+                <p>Total Budget: ${{ account.remaining_money|add:account.total_spent }}</p>
+                <p>Total Spent: ${{ account.total_spent }}</p>
+                <p>Remaining: ${{ account.remaining_money }}</p>
+            </div>
+        </a>
+        {% empty %}
+        <p>No accounts found.</p>
+        {% endfor %}
+    </div>
+
+    <div class="category-container">
+        <div class="section-header">
+            <h2>Spending by Category</h2>
+            <a href="{% url 'create_category' %}" class="section-add-btn">+ Add</a>
+        </div>
+
+        {% for name, total in spending_by_category.items %}
+        <div class="category-card">
+            <strong>{{ name }}</strong>
+            <span>${{ total }}</span>
+        </div>
+        {% empty %}
+        <p>No categories found.</p>
+        {% endfor %}
+    </div>
+
+</div>
+{% endblock %}

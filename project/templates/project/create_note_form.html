@@ -1,0 +1,24 @@
+<!-- Author: Valentina Mora (vmora19@bu.edu), 12/03/2025 -->
+<!-- Description: display the html form to create a new Note object -->
+
+<!-- project/templates/project/create_note_form.html -->
+
+{% extends 'project/base.html' %}
+
+
+{% block content %}
+<h1 class="subheading">Create a New Note</h1>
+
+<form action="{% url 'create_note' %}" method="POST" class="form-container">
+    {% csrf_token %}
+    
+    <div class="form-fields">
+        {{ form.as_p }}
+    </div>
+
+    <div class="form-actions">
+        <button type="submit" class="submit-btn">Submit</button>
+        <a href="{% url 'show_all_notes' %}" class="cancel-btn">Cancel</a>
+    </div>
+</form>
+{% endblock %}
